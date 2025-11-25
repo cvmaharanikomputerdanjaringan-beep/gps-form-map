@@ -1,30 +1,48 @@
 <!DOCTYPE html>
-<html>
+<html lang="id">
 <head>
   <meta charset="UTF-8" />
-  <title>GPS Redirect</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mengambil Lokasi...</title>
+
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 40px;
+      text-align: center;
+    }
+  </style>
 </head>
+
 <body>
-  <h3>Mengambil lokasi...</h3>
+  <h3>Mohon tunggu, sedang mengambil lokasi GPS...</h3>
 
   <script>
-    const formUrl = "https://docs.google.com/forms/d/e/1FAIpQLSfx1_nGCXR7WasnkhqI8TwdlBW9iEwyCU2L0_e3btc1uUYvjA/viewform?usp=pp_url&entry.1134534157=";
+    // ==== GANTI KE LINK PREFILL GOOGLE FORM ANDA ====
+    const formUrl =
+      "https://docs.google.com/forms/d/e/1FAIpQLSfx1_nGCXR7WasnkhqI8TwdlBW9iEwyCU2L0_e3btc1uUYvjA/viewform?usp=pp_url&entry.1134534157=";
 
     function success(pos) {
       const lat = pos.coords.latitude;
       const lng = pos.coords.longitude;
       const coords = lat + "," + lng;
 
-      // Redirect ke Google Form
+      // Redirect ke Google Form dengan koordinat otomatis
       window.location.href = formUrl + encodeURIComponent(coords);
     }
 
     function error(err) {
-      document.body.innerHTML = "<h3>Gagal mengambil lokasi</h3>";
+      document.body.innerHTML =
+        "<h3 style='color:red;'>Gagal mengambil lokasi GPS<br>Pastikan GPS aktif dan izinkan lokasi.</h3>";
     }
 
-    navigator.geolocation.getCurrentPosition(success, error);
+    // Meminta izin GPS
+    navigator.geolocation.getCurrentPosition(success, error, {
+      enableHighAccuracy: true,
+      timeout: 10000,
+      maximumAge: 0
+    });
   </script>
-
 </body>
 </html>
+
