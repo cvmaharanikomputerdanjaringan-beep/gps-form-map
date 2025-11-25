@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8" />
+  <title>GPS Redirect</title>
+</head>
+<body>
+  <h3>Mengambil lokasi...</h3>
+
+  <script>
+    const formUrl = "https://docs.google.com/forms/d/e/1FAIpQLSfx1_nGCXR7WasnkhqI8TwdlBW9iEwyCU2L0_e3btc1uUYvjA/viewform?usp=pp_url&entry.1134534157=";
+
+    function success(pos) {
+      const lat = pos.coords.latitude;
+      const lng = pos.coords.longitude;
+      const coords = lat + "," + lng;
+
+      // Redirect ke Google Form
+      window.location.href = formUrl + encodeURIComponent(coords);
+    }
+
+    function error(err) {
+      document.body.innerHTML = "<h3>Gagal mengambil lokasi</h3>";
+    }
+
+    navigator.geolocation.getCurrentPosition(success, error);
+  </script>
+
+</body>
+</html>
